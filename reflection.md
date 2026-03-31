@@ -43,27 +43,27 @@ One tradeoff my scheduler makes is that it only checks for exact time conflicts 
 
 **a. How you used AI**
 
-- How did you use AI tools during this project (for example: design brainstorming, debugging, refactoring)?
-- What kinds of prompts or questions were most helpful?
+During this project, I used AI tools mainly to help with brainstorming the system design, writing the initial class skeletons, and debugging parts of the code. AI helped suggest how the classes like Owner, Pet, Task, and Scheduler should interact and how to organize the scheduling logic. I also used it when writing tests and improving parts of the code that handled sorting, filtering, and conflict detection.
+
+The most helpful prompts were specific questions about how different parts of the system should connect. For example, asking how the Scheduler should retrieve tasks from the Owner’s pets or how to sort tasks by time helped me implement those features more clearly.
 
 **b. Judgment and verification**
 
-- Describe one moment where you did not accept an AI suggestion as-is.
-- How did you evaluate or verify what the AI suggested?
+There were times when I did not accept AI suggestions exactly as they were given. For example, some suggestions added more complexity than I needed for this project. Instead of using those versions, I simplified the logic so it would still meet the requirements but remain easier to understand and maintain.
 
+To verify the suggestions, I tested the code by running the demo script and the automated tests. If the output worked correctly and the tests passed, I knew the solution was working as intended.
 ---
 
 ## 4. Testing and Verification
 
 **a. What you tested**
 
-- What behaviors did you test?
-- Why were these tests important?
+I tested task completion, adding tasks to a pet, sorting tasks by time, recurring task creation, and conflict detection. These tests were important because they checked the main features of the system and helped confirm that the scheduler logic was working correctly.
 
 **b. Confidence**
 
-- How confident are you that your scheduler works correctly?
-- What edge cases would you test next if you had more time?
+I am fairly confident that my scheduler works correctly for the main use cases I implemented. The tests helped verify that the system behaves as expected for important scheduling features. If I had more time, I would also test more edge cases, such as pets with no tasks, tasks with the same priority, and tasks that go over the owner’s available time.
+
 
 ---
 

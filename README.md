@@ -49,3 +49,10 @@ PawPal+ includes a smarter scheduling system that can:
 - filter tasks by completion status or pet
 - detect exact time conflicts
 - create the next recurring task for daily or weekly activities
+
+## Testing PawPal+
+
+To run the automated tests:
+
+```bash
+python -m pytest
