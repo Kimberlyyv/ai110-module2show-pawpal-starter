@@ -16,22 +16,27 @@ The Scheduler class is responsible for organizing tasks and generating a daily p
 
 **b. Design changes**
 
-During implementation, I made a small change to the design. At first, I thought each Pet would handle more of the scheduling logic. Later, I realized it would be better for the Scheduler class to handle organizing tasks for all pets in one place.
+During implementation, I made a small change to the design. At first, I kept the Task class more basic, but later I added a frequency attribute so tasks could better represent repeated pet care activities like feeding or walking. I also decided that the Scheduler class should handle organizing tasks across all pets instead of having each Pet do that on its own.
 
-This made the system simpler because the Pet class only stores tasks, while the Scheduler focuses on creating the daily schedule.
+These changes made the system more practical and kept the responsibilities of each class clearer.
 
 ## 2. Scheduling Logic and Tradeoffs
 
 **a. Constraints and priorities**
 
-- What constraints does your scheduler consider (for example: time, priority, preferences)?
-- How did you decide which constraints mattered most?
+You can write it like this:
+
+## 2. Scheduling Logic and Tradeoffs
+
+### a. Constraints and priorities
+
+My scheduler mainly considers task time, completion status, available time, and task priority**. It uses task time to sort the schedule in order, checks completion status so finished tasks are not added again, and uses the owner’s available time to make sure the daily plan is realistic. I also included priority as an important part of the task information so the system can keep track of which tasks matter more.
+
+I decided these constraints mattered most because they matched the main goal of the project, which is helping a busy pet owner stay organized and complete important pet care tasks in a reasonable schedule. I wanted the scheduler to stay simple but still be practical, so I focused on the constraints that would have the biggest impact on planning a day.
 
 **b. Tradeoffs**
 
-- Describe one tradeoff your scheduler makes.
-- Why is that tradeoff reasonable for this scenario?
-
+One tradeoff my scheduler makes is that it only checks for exact time conflicts instead of more detailed overlapping task durations. I think this is reasonable for this project because it keeps the logic simple while still helping the user notice obvious scheduling problems.
 ---
 
 ## 3. AI Collaboration

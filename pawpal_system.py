@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
-from typing import List
+from typing import List, Optional
+from datetime import date, timedelta
 
 
 @dataclass
@@ -8,13 +9,42 @@ class Task:
     duration: int
     priority: int
     time: str
+    frequency: str
+    due_date: date
     completed: bool = False
 
-    def mark_complete(self) -> None:
-        pass
+    def mark_complete(self) -> Optional["Task"]:
+        """Mark the task as complete and create the next recurring task if needed."""
+        self.completed = True
 
-    def update_task(self, description: str, duration: int, priority: int, time: str) -> None:
-        pass
+        if self.frequency.lower() == "daily":
+            return Task(
+                description=self.description,
+                duration=self.duration,
+                priority=self.priority,
+                time=self.time,
+                frequency=self.frequency,
+                due_date=self.due_date + timedelta(days=1),
+            )
+        elif self.frequency.lower() == "weekly":
+            return Task(
+                description=self.description,
+                duration=self.duration,
+                priority=self.priority,
+                time=self.time,
+                frequency=self.frequency,
+                due_date=self.due_date + timedelta(weeks=1),
+            )
+
+        return None
+
+    def update_task(self, description: str, duration: int, priority: int, time: str, frequency: str) -> None:
+        """Update the task details."""
+        self.description = description
+        self.duration = duration
+        self.priority = priority
+        self.time = time
+        self.frequency = frequency
 
 
 @dataclass
@@ -25,13 +55,17 @@ class Pet:
     tasks: List[Task] = field(default_factory=list)
 
     def add_task(self, task: Task) -> None:
-        pass
+        """Add a task to the pet."""
+        self.tasks.append(task)
 
     def remove_task(self, task: Task) -> None:
-        pass
+        """Remove a task from the pet."""
+        if task in self.tasks:
+            self.tasks.remove(task)
 
     def get_tasks(self) -> List[Task]:
-        pass
+        """Return all tasks for the pet."""
+        return self.tasks
 
 
 @dataclass
@@ -42,10 +76,15 @@ class Owner:
     pets: List[Pet] = field(default_factory=list)
 
     def add_pet(self, pet: Pet) -> None:
-        pass
+        """Add a pet to the owner."""
+        self.pets.append(pet)
 
     def get_all_tasks(self) -> List[Task]:
-        pass
+        """Return all tasks from all pets."""
+        all_tasks = []
+        for pet in self.pets:
+            all_tasks.extend(pet.tasks)
+        return all_tasks
 
 
 class Scheduler:
@@ -53,16 +92,63 @@ class Scheduler:
         self.owner = owner
 
     def get_all_tasks(self) -> List[Task]:
-        pass
+        """Get all tasks from the owner's pets."""
+        return self.owner.get_all_tasks()
 
-    def sort_tasks(self) -> List[Task]:
-        pass
+    def sort_by_time(self) -> List[Task]:
+        """Return tasks sorted by time."""
+        return sorted(self.get_all_tasks(), key=lambda task: task.time)
 
-    def filter_tasks(self, completed: bool = False) -> List[Task]:
-        pass
+    def filter_tasks(self, completed: Optional[bool] = None, pet_name: Optional[str] = None) -> List[Task]:
+        """Filter tasks by completion status or pet name."""
+        filtered = []
+
+        for pet in self.owner.pets:
+            for task in pet.tasks:
+                if completed is not None and task.completed != completed:
+                    continue
+                if pet_name is not None and pet.name.lower() != pet_name.lower():
+                    continue
+                filtered.append(task)
+
+        return filtered
 
     def generate_daily_plan(self) -> List[Task]:
-        pass
+        """Generate a daily plan sorted by time and limited by available time."""
+        sorted_tasks = self.sort_by_time()
+        selected_tasks = []
+        total_time = 0
 
-    def detect_conflicts(self):
-        pass
+        for task in sorted_tasks:
+            if not task.completed and total_time + task.duration <= self.owner.available_time:
+                selected_tasks.append(task)
+                total_time += task.duration
+
+        return selected_tasks
+
+    def mark_task_complete(self, pet_name: str, task_description: str) -> None:
+        """Mark a task complete and add the next recurring version if needed."""
+        for pet in self.owner.pets:
+            if pet.name.lower() == pet_name.lower():
+                for task in pet.tasks:
+                    if task.description.lower() == task_description.lower() and not task.completed:
+                        new_task = task.mark_complete()
+                        if new_task:
+                            pet.add_task(new_task)
+                        return
+
+    def detect_conflicts(self) -> List[str]:
+        """Detect tasks that have the exact same time."""
+        seen_times = {}
+        conflicts = []
+
+        for pet in self.owner.pets:
+            for task in pet.tasks:
+                if task.time in seen_times:
+                    conflicts.append(
+                        f"Conflict detected at {task.time} between '{seen_times[task.time]}' and '{task.description}'"
+                    )
+                else:
+                    seen_times[task.time] = task.description
+
+        return conflicts
