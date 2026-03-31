@@ -30,7 +30,7 @@ Your final app should:
 python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-```
+
 
 ### Suggested workflow
 
@@ -44,11 +44,19 @@ pip install -r requirements.txt
 
 ## Smarter Scheduling
 
-PawPal+ includes a smarter scheduling system that can:
-- sort tasks by time
-- filter tasks by completion status or pet
-- detect exact time conflicts
-- create the next recurring task for daily or weekly activities
+## Features
+
+PawPal+ helps pet owners manage daily care tasks through a simple scheduling system.
+
+Key features include:
+
+- Add pets and store their information
+- Create pet care tasks with duration and priority
+- Sort tasks by scheduled time
+- Filter tasks by completion status
+- Detect scheduling conflicts between tasks
+- Automatically create recurring tasks for daily or weekly activities
+- Generate a daily schedule based on available time
 
 ## Testing PawPal+
 
@@ -56,3 +64,15 @@ To run the automated tests:
 
 ```bash
 python -m pytest
+
+##  Demo
+
+Below is a screenshot of the PawPal+ Streamlit interface.
+
+<a href="/course_images/ai110/pawpal_demo.png" target="_blank">
+<img src='/course_images/ai110/pawpal_demo.png' title='PawPal App' alt='PawPal App' class='center-block' />
+</a>
+
+## System Architecture (UML)
+
+![PawPal UML](uml_final.png)

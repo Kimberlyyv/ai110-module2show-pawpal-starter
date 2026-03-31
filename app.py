@@ -1,4 +1,5 @@
 import streamlit as st
+from datetime import date
 from pawpal_system import Owner, Pet, Task, Scheduler
 
 st.set_page_config(page_title="PawPal+", page_icon="🐾", layout="centered")
@@ -32,6 +33,7 @@ st.subheader("Owner and Pet Info")
 
 owner_name = st.text_input("Owner name", value=st.session_state.owner.name)
 st.session_state.owner.name = owner_name
+
 pet_name = st.text_input("Pet name")
 species = st.selectbox("Species", ["dog", "cat", "other"])
 pet_age = st.number_input("Pet age", min_value=0, step=1)
@@ -70,7 +72,14 @@ if st.session_state.owner.pets:
                 break
 
         if selected_pet:
-            new_task = Task(task_title, int(duration), int(priority_number), task_time, frequency)
+            new_task = Task(
+                task_title,
+                int(duration),
+                int(priority_number),
+                task_time,
+                frequency,
+                date.today()
+            )
             selected_pet.add_task(new_task)
             st.success(f"Task added for {selected_pet.name}.")
 else:
@@ -107,12 +116,21 @@ if st.button("Generate Schedule"):
     daily_plan = scheduler.generate_daily_plan()
 
     if daily_plan:
-        st.success("Daily schedule generated.")
+        st.success("Daily schedule generated!")
 
+        table_data = []
         for task in daily_plan:
-            st.write(
-                f"{task.time} | {task.description} | {task.duration} min | Priority {task.priority}"
+            table_data.append(
+                {
+                    "Time": task.time,
+                    "Task": task.description,
+                    "Duration": task.duration,
+                    "Priority": task.priority,
+                    "Completed": task.completed,
+                }
             )
+
+        st.table(table_data)
 
         conflicts = scheduler.detect_conflicts()
         if conflicts:

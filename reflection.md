@@ -71,12 +71,10 @@ I am fairly confident that my scheduler works correctly for the main use cases I
 
 **a. What went well**
 
-- What part of this project are you most satisfied with?
-
+One part of the project I am most satisfied with is getting the scheduler logic to work correctly. I was able to organize tasks by time, detect conflicts between tasks, and generate a daily plan. Seeing everything work together through the Streamlit interface was rewarding because it showed that the backend logic and the UI were successfully connected.
 **b. What you would improve**
 
-- If you had another iteration, what would you improve or redesign?
-
+If I had another iteration, I would improve the scheduling logic to make it more advanced. Right now the scheduler mainly sorts tasks by time and checks for exact conflicts. In the future, I would redesign it so it could handle overlapping durations and automatically adjust task times to avoid conflicts. I would also improve the UI so users could edit or delete tasks more easily.
 **c. Key takeaway**
 
-- What is one important thing you learned about designing systems or working with AI on this project?
+One important thing I learned from this project is that designing a system requires thinking about how different parts interact, not just writing code. I also learned that AI tools can be helpful for generating ideas and debugging, but it is still important to review the suggestions carefully and decide what actually fits the design of the system.
